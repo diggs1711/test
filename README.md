@@ -8,6 +8,11 @@ For testing, the [jest](https://jestjs.io/) testing framework is used.
 
 A simple DB class object is used to act as a database which stores the tournament and player information.
 
+Install dependcies
+```
+npm install
+```
+
 To start the server
 ```
 npm run start
