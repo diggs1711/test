@@ -11,7 +11,7 @@ export class Server {
 
         this.app.get('/getPlayerStats', (req, res) => {
             const playerName = req.param('playerName')
-            const player = db.players.find(player => player.name == playerName)
+            const player = db.getPlayer(playerName)
 
             if (!player) {
                 return res.send("No such player exists")

@@ -46,11 +46,15 @@ var Match = (function () {
                 this.score.player1SetsWon++;
                 p1GamesWon = 0;
                 p2GamesWon = 0;
+                p2GameScore = 0;
+                p1GameScore = 0;
             }
             if (p2GamesWon == 6) {
                 this.score.player2SetsWon++;
                 p1GamesWon = 0;
                 p2GamesWon = 0;
+                p2GameScore = 0;
+                p1GameScore = 0;
             }
             if (this.score.player1SetsWon == 2) {
                 this.winner = this.player1;

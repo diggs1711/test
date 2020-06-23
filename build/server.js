@@ -15,7 +15,7 @@ var Server = (function () {
         this.app.use(express_1.default.urlencoded({ extended: true }));
         this.app.get('/getPlayerStats', function (req, res) {
             var playerName = req.param('playerName');
-            var player = db_1.default.players.find(function (player) { return player.name == playerName; });
+            var player = db_1.default.getPlayer(playerName);
             if (!player) {
                 return res.send("No such player exists");
             }

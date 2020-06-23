@@ -1,6 +1,6 @@
 import Tournament from "../src/tournament"
 
-test("Creates tournament correctly", () => {
+test("Initialises tournament correctly", () => {
     const file = `Match: 01
     Person A vs Person B
     0

@@ -24,7 +24,7 @@ var Tournament = (function () {
                         var score = parseInt(curr);
                         scores.push(score);
                     }
-                    else if (curr === '\r') {
+                    else if (curr === '\r' || curr == '' || curr == "  ") {
                     }
                     else if (curr && !Number.isInteger(parseInt(curr))) {
                         break;

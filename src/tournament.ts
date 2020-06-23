@@ -25,7 +25,7 @@ export default class Tournament {
                 if (curr && Number.isInteger(parseInt(curr))) {
                     const score = parseInt(curr)
                     scores.push(score)
-                } else if (curr === '\r') {
+                } else if (curr === '\r' || curr == '' || curr == "  ") {
                     // ignore empty space in string
                     // \r is carraige return
                 } else if (curr && !Number.isInteger(parseInt(curr))) {
