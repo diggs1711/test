@@ -1,9 +1,11 @@
 // Fake db to store tournament
 
-import Tournamnet from "./Tournamnet"
+import Tournament from "./tournament"
+import Player from "./player"
 
-export default class DB {
-    tournament: Tournamnet | undefined
+class DB {
+    tournament: Tournament | undefined
+    players: Player[] = []
 
     getTournament() {
         if (this.tournament) {
@@ -13,7 +15,19 @@ export default class DB {
         }
     }
 
-    setTournament(tournament: Tournamnet) {
+    setTournament(tournament: Tournament) {
         this.tournament = tournament
     }
+
+    addPlayer(player: Player) {
+        if (!this.players.find(p => p.name == player.name)) {
+            this.players.push(player)
+        }
+    }
+
+    getPlayer(name: string) {
+        return this.players.find(player => player.name === name)
+    }
 }
+
+export default new DB()

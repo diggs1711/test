@@ -1,38 +1,52 @@
 import express from 'express'
-import Tournamnet from './Tournamnet'
-import DB from './db'
+import Tournament from './tournament'
+import db from './db'
 
-const PORT = 8000
+export class Server {
+    port = 8000
+    app = express()
 
-const app = express()
-let db = new DB()
+    constructor () {
+        this.app.use(express.urlencoded({ extended: true }))
 
-app.use(express.urlencoded({ extended: true }))
+        this.app.get('/getPlayerStats', (req, res) => {
+            const playerName = req.param('playerName')
+            const player = db.players.find(player => player.name == playerName)
 
-app.get('/', (req, res) => {
-    res.send("Hello")
-})
+            if (!player) {
+                return res.send("No such player exists")
+            } else {
+                return res.send(`Games won: ${player?.stats.gamesWon}, Games Lost: ${player?.stats.gamesLost}`)
+            }
+        })
 
-app.get('/matches', (req, res) => {
-    res.send({
-        "result": 34
-    })
-})
+        this.app.get('/getMatchResult', (req, res) => {
+            const tournament = db.getTournament()
+            const matchId = parseInt(req.param("matchId"))
+            const match = tournament.matches.find(match => match.id == matchId)
 
-app.post("/uploadTournamentResults", (req, res, next) => {
-    let match = Object.keys(req.body)[0]
+            if (!match?.winner) {
+                return res.send(`No winner`)
+            } else if (match?.winner == match.player1) {
+                return res.send(`${match.player1.name} defeated ${match.player2.name}`)
+            } else {
+                return res.send(`${match.player2.name} defeated ${match.player1.name}`)
+            }
+        })
 
-    const parsedTournamentString = Tournamnet.parseTournamentString(match)
-    const tournament = new Tournamnet(parsedTournamentString)
-    db.setTournament(tournament)
-
-    res.sendStatus(200)
-})
-
-
-app.listen(PORT, () => {
-
-    console.log(`Server listening on port: ${PORT}`)
-})
+        this.app.post("/uploadTournamentResults", (req, res) => {
+            let matches = Object.keys(req.body)[0]
+            const tournament = new Tournament(matches)
+            db.setTournament(tournament)
+            return res.sendStatus(200)
+        })
 
 
+        this.app.listen(this.port, () => {
+            console.log(`Server listening on port: ${this.port}`)
+        })
+    }
+
+}
+
+export default new Server()
